@@ -8,21 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Autor extends Model
 {
     use HasFactory;
+    protected $table = 'autores';
+    protected $fillable = ['nome', 'email', 'descricao'];
 
     protected string $nome;
     protected string $email;
     protected string $descricao;
 
-    /**
-     * @param string $nome
-     * @param string $email
-     * @param string $descricao
-     */
-    public function __construct(string $nome, string $email, string $descricao)
+    public function __construct(array $attributes = [])
     {
-        $this->nome = $nome;
-        $this->email = $email;
-        $this->descricao = $descricao;
+        parent::__construct($attributes);
     }
 
 }

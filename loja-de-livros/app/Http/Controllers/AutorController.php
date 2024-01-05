@@ -3,26 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Autor;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AutorController extends Controller
 {
     public function store(Request $request): \Illuminate\Http\JsonResponse
     {
-        $request->validate([
-            'nome' => 'required',
-            'email' => 'required|email|unique:authors,email',
-            'descricao' => 'required|max:400',
-        ]);
+        try {
+            $request->validate([
+                'nome' => 'required',
+                'email' => 'required|email|unique:autores,email',
+                'descricao' => 'required|max:400',
+            ]);
 
-//            $author = Autor::create([
-//                'nome' => $request->input('name'),
-//                'email' => $request->input('email'),
-//                'descricao' => $request->input('description'),
-//            ]);
+            $autor = new Autor([
+                'nome' => $request->input('nome'),
+                'email' => $request->input('email'),
+                'descricao' => $request->input('descricao'),
+            ]);
 
-        $author = new Autor($request->input('nome'), $request->input('email'), $request->input('descricao'));
+            $autor->save();
 
-            return response()->json(['author' => $author], 200);
+            return response()->json(['autor' => $autor], 200);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['Mensagem' => $exception->getMessage()], 400);
         }
+
+    }
 }

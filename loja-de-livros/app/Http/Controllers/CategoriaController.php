@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Autor;
 use App\Models\Categoria;
+use App\Rules\UniqueValue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class CategoriaController extends Controller
     {
         try {
             $request->validate([
-                'nome' => 'required|unique:categorias,nome'
+                'nome' => ['required', 'string', new UniqueValue('categorias', 'nome')],
             ]);
 
             $categoria = new Categoria([

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Autor;
+use App\Rules\UniqueValue;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,8 @@ class AutorController extends Controller
         try {
             $request->validate([
                 'nome' => 'required',
-                'email' => 'required|email|unique:autores,email',
+//                'email' => 'required|email|unique:autores,email',
+                'email' => ['required', 'email', new UniqueValue('autores', 'email')],
                 'descricao' => 'required|max:400',
             ]);
 

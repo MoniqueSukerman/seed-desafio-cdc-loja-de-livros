@@ -16,11 +16,11 @@ class Livro extends Model
         'resumo',
         'sumario',
         'preco',
-        'quantidade_paginas',
+        'numero_paginas',
         'isbn',
         'data_publicacao',
-        'categoria',
-        'autor'
+        'categoria_id',
+        'autor_id'
     ];
 
     public function __construct(array $attributes = [])

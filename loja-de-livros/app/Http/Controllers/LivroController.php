@@ -47,4 +47,29 @@ class LivroController extends Controller
         }
 
     }
+
+    public function index(): JsonResponse
+    {
+        try {
+            $livros = Livro::all();
+            return  response()->json(['livros' => $livros], 200);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['Mensagem' => $exception->getMessage()], 400);
+        }
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $livro = Livro::find($id);
+
+            if (!$livro) {
+                return response()->json(['message' => 'Livro não encontrado'], 404);
+            }
+
+            return response()->json(['livro' => $livro], 200);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['Mensagem' => $exception->getMessage()], 400);
+        }
+    }
 }

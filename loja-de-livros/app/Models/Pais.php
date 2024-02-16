@@ -18,4 +18,14 @@ class Pais extends Model
     {
         parent::__construct($attributes);
     }
+
+    public function estados()
+    {
+        return $this->hasMany(Estado::class);
+    }
+
+    public function getEstados()
+    {
+        return $this->estados;
+    }
 }

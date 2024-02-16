@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\LivroController;
+use App\Http\Controllers\PagamentoController;
 use App\Http\Controllers\PaisController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,5 @@ Route::get('/livros', [LivroController::class, 'index']);
 Route::get('/livros/{id}', [LivroController::class, 'show']);
 Route::post('/paises', [PaisController::class, 'store']);
 Route::post('/estados', [EstadoController::class, 'store']);
+Route::post('/pagamentos', [PagamentoController::class, 'store']);
 

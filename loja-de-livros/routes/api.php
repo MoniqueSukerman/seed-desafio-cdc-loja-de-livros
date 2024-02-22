@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CupomController;
 use App\Http\Controllers\EstadoController;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\CompraController;
@@ -33,4 +34,5 @@ Route::post('/paises', [PaisController::class, 'store']);
 Route::post('/estados', [EstadoController::class, 'store']);
 Route::post('/compra/dados-cliente', [CompraController::class, 'processarDadosCliente']);
 Route::post('/compra/iniciar', [CompraController::class, 'iniciar']);
+Route::post('/cupons', [CupomController::class, 'store']);
 

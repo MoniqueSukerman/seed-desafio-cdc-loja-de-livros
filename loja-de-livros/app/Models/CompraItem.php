@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Pais extends Model
+class CompraItem extends Model
 {
     use HasFactory;
 
-    protected $table = 'paises';
+    protected $table = 'compras_itens';
     protected $fillable = [
-        'nome',
+        'livro_id',
+        'quantidade',
+        'preco',
+        'compra_id'
     ];
 
     public function __construct(array $attributes = [])
@@ -19,13 +23,8 @@ class Pais extends Model
         parent::__construct($attributes);
     }
 
-    public function estados()
+    public function compra(): BelongsTo
     {
-        return $this->hasMany(Estado::class);
-    }
-
-    public function getEstados()
-    {
-        return $this->load('estados');
+        return $this->belongsTo(Compra::class);
     }
 }

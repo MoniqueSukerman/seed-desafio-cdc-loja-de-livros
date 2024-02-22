@@ -49,4 +49,9 @@ class Livro extends Model
         });
     }
 
+    public function getPreco() : float
+    {
+        return $this->preco;
+    }
+
 }

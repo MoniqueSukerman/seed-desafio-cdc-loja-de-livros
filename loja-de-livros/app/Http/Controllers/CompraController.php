@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compra;
 use App\Models\CompraItem;
+use App\Models\Cupom;
 use App\Models\Livro;
 use App\Models\Pais;
 use Illuminate\Http\JsonResponse;
@@ -89,9 +90,24 @@ class CompraController extends Controller
                 throw new \Exception('Total da compra incorreto!', 103);
             }
 
+            $codigoCupom = $request->input('cupom');
+            $cupom = Cupom::where('codigo', $codigoCupom)->first();
+
+            if (!$cupom instanceof Cupom) {
+                throw new \Exception("O cupom $codigoCupom não existe!", 105);
+            }
+
+            $validade = new \DateTime($cupom->getValidade());
+            $validadeFormatada = $validade->format('d-m-y H:i:s');
+
+            if ($validade < new \DateTime()) {
+                throw new \Exception("Este cupom expirou em $validadeFormatada!", 106);
+            }
+
             $dadosCompra = $dadosCliente;
             $dadosCompra['total_compra'] = $totalCompra;
             $dadosCompra['status'] = self::STATUS_INICIADA;
+            $dadosCompra['cupom_id'] = $cupom->getId();
 
             $compra = new Compra($dadosCompra);
             $compra->save();
@@ -99,6 +115,26 @@ class CompraController extends Controller
 
 
             return response()->json(['compra' => array_merge($dadosCliente, $request->all())], 201);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['Mensagem' => $exception->getMessage()], 400);
+        }
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $compra = Compra::find($id);
+
+            if (!$compra instanceof Compra) {
+                return response()->json(['message' => 'Compra não encontrado'], 404);
+            }
+
+            if (!is_null($compra->getCupomId())) {
+                $cupom = Cupom::find($compra->getCupomId());
+                $valorFinal = $compra->getValorTotal() - ($compra->getValorTotal() * $cupom->getPercentualEmDecimais());
+            }
+
+            return response()->json(['compra' => $compra, 'valorFinal' => $valorFinal], 200);
         } catch (\Exception $exception) {
             return new JsonResponse(['Mensagem' => $exception->getMessage()], 400);
         }

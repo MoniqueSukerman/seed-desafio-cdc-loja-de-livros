@@ -23,7 +23,8 @@ class Compra extends Model
         'telefone',
         'cep',
         'status',
-        'total_compra'
+        'total_compra',
+        'cupom_id'
     ];
 
     public function __construct(array $attributes = [])
@@ -34,5 +35,15 @@ class Compra extends Model
     public function itens()
     {
         return $this->hasMany(CompraItem::class);
+    }
+
+    public function getCupomId()
+    {
+        return $this->cupom_id;
+    }
+
+    public function getValorTotal()
+    {
+        return $this->total_compra;
     }
 }

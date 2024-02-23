@@ -16,4 +16,19 @@ class Cupom extends Model
         parent::__construct($attributes);
     }
 
+    public function getValidade()
+    {
+        return $this->validade;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getPercentualEmDecimais()
+    {
+        return $this->percentual / 100;
+    }
+
 }
